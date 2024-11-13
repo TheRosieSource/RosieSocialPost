@@ -53,7 +53,7 @@ public class RosieAPI {
 }
 ```
 
-..creating test method your API method...
+...creating test method your API method...
 
 ```java
 public class Main {
@@ -66,4 +66,63 @@ public class Main {
         }
     }
 }
+```
+...ensure done.
+### Set API token...
+...replace the placeholder for the API key with your actual API token...
+```java
+public class RosieAPI {
+    // Replace "your_api_key_here" with your actual API token
+    private static final String API_KEY = "jLiOKCNr9XdF_iwO7T82RiuURy3nE7l2nN899CqO";
+    private static final String API_URL = "https://api.rosie.com/v1/posts";
+
+    public static String sendPost(String message) throws Exception {
+        try (CloseableHttpClient client = HttpClientUtil.createHttpClient()) {
+            HttpPost post = new HttpPost(API_URL);
+            post.setHeader("Content-type", "application/json");
+            post.setHeader("Authorization", "Bearer " + API_KEY);
+
+            // Assuming the body takes a simple JSON structure - adjust as needed
+            String json = "{\"message\": \"" + message + "\"}";
+            post.setEntity(new StringEntity(json));
+
+            return EntityUtils.toString(client.execute(post).getEntity());
+        }
+    }
+}
+```
+### JavaScript
+Sample a JavaScript commit by liked good for:
+```javascript
+// Function to post a message to the Rosie Social Post API
+async function postToSocialAPI(message) {
+    const apiUrl = 'https://api.rosie.com/v1/posts';
+    const apiKey = 'jLiOKCNr9XdF_iwO7T82RiuURy3nE7l2nN899CqO';
+    const payload = {
+        message: message
+    };
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Success:', data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// Example usage:
+postToSocialAPI('Hello from JavaScript!');
 ```
